@@ -1,6 +1,6 @@
 // מאגר רכיבים עשיר לבניית שייקים
 const ingredientsDatabase = {
-    // פירות טריים
+    // פירות טריים 
     fruits: [
         { id: 1, name: "בננה", category: "fruits", calories: 89, protein: 1.1, carbs: 22.8, fat: 0.3, fiber: 2.6, sugar: 12.2, icon: "🍌", benefits: ["אנרגיה", "אשלגן", "ויטמין B6"] },
         { id: 2, name: "תפוח", category: "fruits", calories: 52, protein: 0.3, carbs: 13.8, fat: 0.2, fiber: 2.4, sugar: 10.4, icon: "🍎", benefits: ["נוגד חמצון", "עיכול", "ויטמין C"] },

@@ -1,6 +1,6 @@
 // מנהל מסד הנתונים IndexedDB לשמירת מיקסים אישיים
 class ShakesMixManager {
-    constructor() {
+    constructor() { 
         this.dbName = 'ShakesDB';
         this.dbVersion = 1;
         this.db = null;
