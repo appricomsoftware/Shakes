@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>אפליקציית השייקים - בחר את השייק המושלם</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">
+                <i class="fas fa-blender"></i>
+                שייק מרקט
+            </h1>
+            <nav class="nav">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="חפש שייק...">
+                    <i class="fas fa-search"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <section class="hero">
+                <h2>בחר את השייק המושלם בשבילך</h2>
+                <p>מגוון רחב של שייקים בריאים לכל מטרה - מהורדה במשקל ועד חיזוק החיסון</p>
+            </section>
+
+            <section class="categories">
+                <h3>קטגוריות</h3>
+                <div class="category-grid">
+                    <div class="category-card" data-category="health">
+                        <div class="category-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h4>בריאות כללית</h4>
+                        <p>שייקים לחיזוק מערכת החיסון ובריאות כללית</p>
+                    </div>
+                    
+                    <div class="category-card" data-category="detox">
+                        <div class="category-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h4>ניקוז וניקוי</h4>
+                        <p>שייקים לניקוי הגוף ושחרור רעלים</p>
+                    </div>
+                    
+                    <div class="category-card" data-category="weight-loss">
+                        <div class="category-icon">
+                            <i class="fas fa-weight"></i>
+                        </div>
+                        <h4>הורדה במשקל</h4>
+                        <p>שייקים דלי קלוריות לירידה בריאה במשקל</p>
+                    </div>
+                    
+                    <div class="category-card" data-category="protein">
+                        <div class="category-icon">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <h4>חלבונים</h4>
+                        <p>שייקים עתירי חלבון לבניית שריר</p>
+                    </div>
+                    
+                    <div class="category-card" data-category="energy">
+                        <div class="category-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h4>אנרגיה</h4>
+                        <p>שייקים לחיזוק האנרגיה והחיוניות</p>
+                    </div>
+                    
+                    <div class="category-card" data-category="beauty">
+                        <div class="category-icon">
+                            <i class="fas fa-sparkles"></i>
+                        </div>
+                        <h4>יופי ועור</h4>
+                        <p>שייקים לבריאות העור והיופי</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="shakes-section">
+                <div class="section-header">
+                    <h3 id="sectionTitle">כל השייקים</h3>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">הכל</button>
+                        <button class="filter-btn" data-filter="health">בריאות</button>
+                        <button class="filter-btn" data-filter="detox">ניקוז</button>
+                        <button class="filter-btn" data-filter="weight-loss">הורדה במשקל</button>
+                        <button class="filter-btn" data-filter="protein">חלבונים</button>
+                        <button class="filter-btn" data-filter="energy">אנרגיה</button>
+                        <button class="filter-btn" data-filter="beauty">יופי</button>
+                    </div>
+                </div>
+                
+                <div class="shakes-grid" id="shakesGrid">
+                    <!-- השייקים ייטענו כאן באמצעות JavaScript -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal לפרטי השייק -->
+    <div class="modal" id="shakeModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalContent">
+                <!-- תוכן השייק ייטען כאן -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 שייק מרקט - כל הזכויות שמורות</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 
