@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>בנאי שייקים אישי - שייק מרקט</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="shake-builder.css">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">
+                <i class="fas fa-blender"></i>
+                שייק מרקט
+            </h1>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    דף הבית
+                </a>
+                <a href="my-mixes.html" class="nav-link">
+                    <i class="fas fa-bookmark"></i>
+                    המיקסים שלי
+                </a>
+                <button class="nav-btn" onclick="saveMix()">
+                    <i class="fas fa-save"></i>
+                    שמור מיקס
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <!-- כותרת ופקדי ניהול -->
+            <section class="builder-header">
+                <div class="builder-title">
+                    <h2>בנה את השייק המושלם שלך</h2>
+                    <p>בחר רכיבים, התאם כמויות וצור מיקס אישי מותאם במיוחד עבורך</p>
+                </div>
+                <div class="builder-actions">
+                    <button class="action-btn" onclick="resetMix()">
+                        <i class="fas fa-redo"></i>
+                        התחל מחדש
+                    </button>
+                    <button class="action-btn" onclick="loadRandomMix()">
+                        <i class="fas fa-random"></i>
+                        מיקס אקראי
+                    </button>
+                    <button class="action-btn primary" onclick="togglePreview()">
+                        <i class="fas fa-eye"></i>
+                        תצוגה מקדימה
+                    </button>
+                </div>
+            </section>
+
+            <!-- מידע המיקס הנוכחי -->
+            <section class="current-mix-info">
+                <div class="mix-details">
+                    <div class="mix-name-section">
+                        <input type="text" id="mixName" placeholder="שם המיקס" class="mix-name-input">
+                        <textarea id="mixDescription" placeholder="תיאור המיקס (אופציונלי)" class="mix-description-input"></textarea>
+                    </div>
+                    <div class="mix-category-section">
+                        <select id="mixCategory" class="mix-category-select">
+                            <option value="custom">אישי</option>
+                            <option value="health">בריאות</option>
+                            <option value="weight-loss">הורדה במשקל</option>
+                            <option value="muscle">בניית שריר</option>
+                            <option value="energy">אנרגיה</option>
+                            <option value="detox">ניקוי</option>
+                            <option value="beauty">יופי</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="nutrition-summary">
+                    <div class="nutrition-item">
+                        <span class="nutrition-value" id="totalCalories">0</span>
+                        <span class="nutrition-label">קלוריות</span>
+                    </div>
+                    <div class="nutrition-item">
+                        <span class="nutrition-value" id="totalProtein">0</span>
+                        <span class="nutrition-label">חלבון (g)</span>
+                    </div>
+                    <div class="nutrition-item">
+                        <span class="nutrition-value" id="totalCarbs">0</span>
+                        <span class="nutrition-label">פחמימות (g)</span>
+                    </div>
+                    <div class="nutrition-item">
+                        <span class="nutrition-value" id="totalFat">0</span>
+                        <span class="nutrition-label">שומן (g)</span>
+                    </div>
+                    <div class="nutrition-item">
+                        <span class="nutrition-value" id="totalVolume">0</span>
+                        <span class="nutrition-label">נפח (ml)</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- המיקס הנוכחי -->
+            <section class="current-mix">
+                <h3>המיקס הנוכחי שלך</h3>
+                <div class="selected-ingredients" id="selectedIngredients">
+                    <div class="empty-mix">
+                        <i class="fas fa-glass-water"></i>
+                        <p>התחל לבנות את המיקס שלך על ידי הוספת רכיבים</p>
+                    </div>
+                </div>
+                <div class="mix-balance" id="mixBalance" style="display: none;">
+                    <h4>איזון תזונתי</h4>
+                    <div class="balance-chart">
+                        <div class="balance-bar">
+                            <div class="balance-segment protein" id="proteinBar"></div>
+                            <div class="balance-segment carbs" id="carbsBar"></div>
+                            <div class="balance-segment fat" id="fatBar"></div>
+                        </div>
+                        <div class="balance-legend">
+                            <div class="legend-item">
+                                <div class="legend-color protein"></div>
+                                <span>חלבון</span>
+                                <span id="proteinPercent">0%</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color carbs"></div>
+                                <span>פחמימות</span>
+                                <span id="carbsPercent">0%</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color fat"></div>
+                                <span>שומן</span>
+                                <span id="fatPercent">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="balance-recommendations" id="balanceRecommendations"></div>
+                </div>
+            </section>
+
+            <!-- מאגר הרכיבים -->
+            <section class="ingredients-browser">
+                <div class="browser-header">
+                    <h3>מאגר רכיבים</h3>
+                    <div class="browser-controls">
+                        <div class="search-container">
+                            <input type="text" id="ingredientSearch" placeholder="חפש רכיב...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <select id="categoryFilter" class="category-filter">
+                            <option value="">כל הקטגוריות</option>
+                            <option value="fruits">פירות טריים</option>
+                            <option value="vegetables">ירקות וירוקים</option>
+                            <option value="proteins">חלבונים וחיזוקים</option>
+                            <option value="seeds_nuts">זרעים ואגוזים</option>
+                            <option value="liquids">נוזלים ובסיסים</option>
+                            <option value="spices">תבלינים וטעמים</option>
+                            <option value="superfoods">סופרפודים</option>
+                            <option value="healthy_sweets">ממתקים בריאים</option>
+                            <option value="frozen">מוצרים קפואים</option>
+                            <option value="supplements">תוספי תזונה</option>
+                            <option value="legumes">קטניות ועדשים</option>
+                            <option value="grains">דגנים וקמחים</option>
+                            <option value="oils">שמנים בריאים</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="ingredients-grid" id="ingredientsGrid">
+                    <!-- רכיבים ייטענו כאן -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal תצוגה מקדימה -->
+    <div class="modal" id="previewModal">
+        <div class="modal-content preview-content">
+            <span class="close" onclick="closePreview()">&times;</span>
+            <div class="preview-header">
+                <h2 id="previewTitle">תצוגה מקדימה</h2>
+                <div class="preview-actions">
+                    <button class="action-btn" onclick="saveMix()">
+                        <i class="fas fa-save"></i>
+                        שמור מיקס
+                    </button>
+                    <button class="action-btn" onclick="exportMix()">
+                        <i class="fas fa-download"></i>
+                        ייצא
+                    </button>
+                </div>
+            </div>
+            <div class="preview-body" id="previewBody">
+                <!-- תוכן התצוגה המקדימה -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal הוספת רכיב -->
+    <div class="modal" id="addIngredientModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddIngredient()">&times;</span>
+            <div class="add-ingredient-content">
+                <h3 id="ingredientModalTitle">הוספת רכיב</h3>
+                <div class="ingredient-details" id="ingredientDetails">
+                    <!-- פרטי הרכיב -->
+                </div>
+                <div class="amount-selector">
+                    <label>כמות (גרם/מ״ל):</label>
+                    <input type="range" id="amountSlider" min="10" max="200" value="50" class="amount-slider">
+                    <input type="number" id="amountInput" min="10" max="500" value="50" class="amount-input">
+                </div>
+                <div class="ingredient-nutrition" id="ingredientNutrition">
+                    <!-- מידע תזונתי מחושב -->
+                </div>
+                <div class="modal-actions">
+                    <button class="action-btn" onclick="closeAddIngredient()">ביטול</button>
+                    <button class="action-btn primary" onclick="confirmAddIngredient()">הוסף רכיב</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal שמירת מיקס -->
+    <div class="modal" id="saveMixModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSaveMix()">&times;</span>
+            <div class="save-mix-content">
+                <h3>שמירת מיקס</h3>
+                <div class="save-form">
+                    <div class="form-group">
+                        <label>שם המיקס:</label>
+                        <input type="text" id="saveMixName" placeholder="שם המיקס">
+                    </div>
+                    <div class="form-group">
+                        <label>תיאור:</label>
+                        <textarea id="saveMixDescription" placeholder="תיאור המיקס"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>קטגוריה:</label>
+                        <select id="saveMixCategory">
+                            <option value="custom">אישי</option>
+                            <option value="health">בריאות</option>
+                            <option value="weight-loss">הורדה במשקל</option>
+                            <option value="muscle">בניית שריר</option>
+                            <option value="energy">אנרגיה</option>
+                            <option value="detox">ניקוי</option>
+                            <option value="beauty">יופי</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="saveMixFavorite">
+                            הוסף למועדפים
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="action-btn" onclick="closeSaveMix()">ביטול</button>
+                    <button class="action-btn primary" onclick="confirmSaveMix()">שמור</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 שייק מרקט - בנאי שייקים מתקדם</p>
+        </div>
+    </footer>
+
+    <script src="ingredients-database.js"></script>
+    <script src="indexeddb-manager.js"></script>
+    <script src="shake-builder.js"></script>
+</body>
+</html> 

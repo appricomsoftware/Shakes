@@ -1,0 +1,708 @@
+/* My Mixes - עיצוב המיקסים האישיים */
+
+/* כותרת וסטטיסטיקות */
+.my-mixes-header {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.header-content h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.header-content p {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.stats-container {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 15px;
+    text-align: center;
+    min-width: 120px;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #667eea;
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+}
+
+/* פקדי ניהול */
+.management-controls {
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.controls-left, .controls-right {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.control-btn {
+    padding: 0.5rem 1rem;
+    border: 2px solid #e0e0e0;
+    background: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.control-btn:hover {
+    border-color: #667eea;
+    transform: translateY(-1px);
+}
+
+.control-btn.primary {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.control-btn.primary:hover {
+    background: #5a67d8;
+}
+
+.control-btn.active {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.sort-select {
+    padding: 0.5rem 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 20px;
+    background: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.sort-select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.controls-right .search-container {
+    position: relative;
+}
+
+.controls-right .search-container input {
+    padding: 0.5rem 1rem;
+    padding-right: 2.5rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    width: 250px;
+    transition: all 0.3s ease;
+}
+
+.controls-right .search-container input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.controls-right .search-container i {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #667eea;
+}
+
+/* רשימת המיקסים */
+.mixes-section {
+    margin-bottom: 2rem;
+}
+
+.mixes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.mix-card {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    position: relative;
+}
+
+.mix-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border-color: #667eea;
+}
+
+.mix-card.favorite {
+    border-color: #ffd700;
+    background: linear-gradient(135deg, #fff9e6 0%, #ffffff 100%);
+}
+
+.mix-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.mix-card-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.mix-card-category {
+    background: #667eea;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.mix-card-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.mix-action-btn {
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.mix-action-btn.favorite {
+    background: #ffd700;
+    color: white;
+}
+
+.mix-action-btn.favorite.active {
+    background: #ffb300;
+}
+
+.mix-action-btn.edit {
+    background: #4caf50;
+    color: white;
+}
+
+.mix-action-btn.delete {
+    background: #f44336;
+    color: white;
+}
+
+.mix-action-btn.export {
+    background: #2196f3;
+    color: white;
+}
+
+.mix-action-btn:hover {
+    transform: scale(1.1);
+}
+
+.mix-card-description {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.mix-card-nutrition {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.nutrition-item {
+    text-align: center;
+    flex: 1;
+}
+
+.nutrition-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #667eea;
+    margin-bottom: 0.25rem;
+}
+
+.nutrition-label {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.mix-card-ingredients {
+    margin-bottom: 1rem;
+}
+
+.mix-card-ingredients h5 {
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-size: 1rem;
+}
+
+.ingredients-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.ingredient-tag {
+    background: #e8f5e8;
+    color: #4caf50;
+    padding: 0.25rem 0.5rem;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.mix-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid #f0f0f0;
+}
+
+.mix-card-date {
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.mix-card-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.mix-card-rating .star {
+    color: #ffd700;
+    font-size: 0.9rem;
+}
+
+.mix-card-rating .star.empty {
+    color: #ddd;
+}
+
+/* מצב ריק */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #666;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    color: #ddd;
+    margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.empty-state p {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+/* Modal עיצוב */
+.large-modal {
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.small-modal {
+    max-width: 400px;
+}
+
+.mix-details-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.mix-details-info {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 15px;
+}
+
+.mix-details-nutrition {
+    background: #f0f4ff;
+    padding: 1.5rem;
+    border-radius: 15px;
+}
+
+.mix-details-ingredients {
+    grid-column: 1 / -1;
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin-top: 1rem;
+}
+
+.mix-details-ingredients h4 {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.ingredients-list {
+    list-style: none;
+    padding: 0;
+}
+
+.ingredients-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.ingredients-list li:last-child {
+    border-bottom: none;
+}
+
+.ingredient-name {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ingredient-icon {
+    font-size: 1.2rem;
+}
+
+.ingredient-amount {
+    font-weight: 600;
+    color: #667eea;
+}
+
+/* אישור מחיקה */
+.delete-confirm-content {
+    text-align: center;
+    padding: 1rem;
+}
+
+.confirm-icon {
+    font-size: 3rem;
+    color: #f44336;
+    margin-bottom: 1rem;
+}
+
+.delete-confirm-content h3 {
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.delete-confirm-content p {
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.warning-text {
+    color: #f44336;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* עריכת מיקס */
+.edit-mix-content {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.form-group textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.form-group input[type="checkbox"] {
+    width: auto;
+    margin-left: 0.5rem;
+}
+
+.rating-input {
+    display: flex;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+}
+
+.rating-input .star {
+    font-size: 1.5rem;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.rating-input .star:hover,
+.rating-input .star.active {
+    color: #ffd700;
+}
+
+/* ייבוא מיקס */
+.import-mix-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.import-options {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.import-option {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.import-option h4 {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.file-input {
+    display: none;
+}
+
+.import-separator {
+    text-align: center;
+    color: #666;
+    font-weight: 600;
+    position: relative;
+}
+
+.import-separator::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #e0e0e0;
+    z-index: 1;
+}
+
+.import-separator::after {
+    content: 'או';
+    background: white;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.import-option textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-family: monospace;
+    margin-bottom: 1rem;
+    resize: vertical;
+}
+
+.import-option textarea:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+/* Footer */
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.footer-section h4 {
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.footer-section p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+.footer-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.footer-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* רספונסיביות */
+@media (max-width: 768px) {
+    .my-mixes-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .stats-container {
+        justify-content: center;
+    }
+    
+    .management-controls {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .controls-left, .controls-right {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .controls-right .search-container input {
+        width: 100%;
+    }
+    
+    .mixes-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .mix-details-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .mix-card-actions {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .my-mixes-header {
+        padding: 1rem;
+    }
+    
+    .management-controls {
+        padding: 1rem;
+    }
+    
+    .mix-card {
+        padding: 1rem;
+    }
+    
+    .mix-card-nutrition {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .import-options {
+        gap: 1rem;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+} 

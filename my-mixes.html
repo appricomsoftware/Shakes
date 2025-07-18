@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>המיקסים שלי - שייק מרקט</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="my-mixes.css">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">
+                <i class="fas fa-blender"></i>
+                שייק מרקט
+            </h1>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    דף הבית
+                </a>
+                <a href="shake-builder.html" class="nav-link">
+                    <i class="fas fa-plus"></i>
+                    בנאי שייקים
+                </a>
+                <button class="nav-btn" onclick="exportAllMixes()">
+                    <i class="fas fa-download"></i>
+                    ייצא הכל
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <!-- כותרת וסטטיסטיקות -->
+            <section class="my-mixes-header">
+                <div class="header-content">
+                    <h2>המיקסים שלי</h2>
+                    <p>כל המיקסים האישיים שיצרת ושמרת</p>
+                </div>
+                <div class="stats-container" id="statsContainer">
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalMixes">0</div>
+                        <div class="stat-label">מיקסים</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="favoriteCount">0</div>
+                        <div class="stat-label">מועדפים</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="avgRating">0</div>
+                        <div class="stat-label">דירוג ממוצע</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="avgCalories">0</div>
+                        <div class="stat-label">קלוריות ממוצעות</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- פקדי ניהול -->
+            <section class="management-controls">
+                <div class="controls-left">
+                    <button class="control-btn" onclick="toggleFavoritesOnly()">
+                        <i class="fas fa-star"></i>
+                        <span id="favoritesToggleText">מועדפים בלבד</span>
+                    </button>
+                    <select id="sortSelect" class="sort-select">
+                        <option value="dateCreated">תאריך יצירה</option>
+                        <option value="name">שם</option>
+                        <option value="rating">דירוג</option>
+                        <option value="calories">קלוריות</option>
+                        <option value="category">קטגוריה</option>
+                    </select>
+                    <button class="control-btn" onclick="toggleSortOrder()">
+                        <i class="fas fa-sort-amount-down" id="sortIcon"></i>
+                        <span id="sortOrderText">יורד</span>
+                    </button>
+                </div>
+                <div class="controls-right">
+                    <div class="search-container">
+                        <input type="text" id="mixSearch" placeholder="חפש במיקסים שלך...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <button class="control-btn primary" onclick="window.location.href='shake-builder.html'">
+                        <i class="fas fa-plus"></i>
+                        מיקס חדש
+                    </button>
+                </div>
+            </section>
+
+            <!-- רשימת המיקסים -->
+            <section class="mixes-section">
+                <div class="mixes-grid" id="mixesGrid">
+                    <!-- מיקסים ייטענו כאן -->
+                </div>
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <div class="empty-icon">
+                        <i class="fas fa-glass-water"></i>
+                    </div>
+                    <h3>אין מיקסים עדיין</h3>
+                    <p>התחל ליצור מיקסים אישיים באמצעות בנאי השייקים</p>
+                    <button class="action-btn primary" onclick="window.location.href='shake-builder.html'">
+                        <i class="fas fa-plus"></i>
+                        צור מיקס חדש
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal פרטי מיקס -->
+    <div class="modal" id="mixDetailsModal">
+        <div class="modal-content large-modal">
+            <span class="close" onclick="closeMixDetails()">&times;</span>
+            <div class="mix-details-content" id="mixDetailsContent">
+                <!-- פרטי המיקס ייטענו כאן -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal עריכת מיקס -->
+    <div class="modal" id="editMixModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditMix()">&times;</span>
+            <div class="edit-mix-content">
+                <h3>עריכת מיקס</h3>
+                <form id="editMixForm">
+                    <div class="form-group">
+                        <label>שם המיקס:</label>
+                        <input type="text" id="editMixName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>תיאור:</label>
+                        <textarea id="editMixDescription"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>קטגוריה:</label>
+                        <select id="editMixCategory">
+                            <option value="custom">אישי</option>
+                            <option value="health">בריאות</option>
+                            <option value="weight-loss">הורדה במשקל</option>
+                            <option value="muscle">בניית שריר</option>
+                            <option value="energy">אנרגיה</option>
+                            <option value="detox">ניקוי</option>
+                            <option value="beauty">יופי</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>דירוג:</label>
+                        <div class="rating-input" id="ratingInput">
+                            <span class="star" data-rating="1">★</span>
+                            <span class="star" data-rating="2">★</span>
+                            <span class="star" data-rating="3">★</span>
+                            <span class="star" data-rating="4">★</span>
+                            <span class="star" data-rating="5">★</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="editMixFavorite">
+                            מועדף
+                        </label>
+                    </div>
+                </form>
+                <div class="modal-actions">
+                    <button type="button" class="action-btn" onclick="closeEditMix()">ביטול</button>
+                    <button type="button" class="action-btn primary" onclick="confirmEditMix()">שמור שינויים</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal אישור מחיקה -->
+    <div class="modal" id="deleteConfirmModal">
+        <div class="modal-content small-modal">
+            <span class="close" onclick="closeDeleteConfirm()">&times;</span>
+            <div class="delete-confirm-content">
+                <div class="confirm-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3>מחיקת מיקס</h3>
+                <p>האם אתה בטוח שברצונך למחוק את המיקס "<span id="deleteMixName"></span>"?</p>
+                <p class="warning-text">פעולה זו אינה ניתנת לביטול</p>
+                <div class="modal-actions">
+                    <button type="button" class="action-btn" onclick="closeDeleteConfirm()">ביטול</button>
+                    <button type="button" class="action-btn danger" onclick="confirmDeleteMix()">מחק</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal ייבוא מיקס -->
+    <div class="modal" id="importMixModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeImportMix()">&times;</span>
+            <div class="import-mix-content">
+                <h3>ייבוא מיקס</h3>
+                <div class="import-options">
+                    <div class="import-option">
+                        <h4>ייבוא מקובץ JSON</h4>
+                        <input type="file" id="importFile" accept=".json" class="file-input">
+                        <button class="action-btn" onclick="document.getElementById('importFile').click()">
+                            <i class="fas fa-file-import"></i>
+                            בחר קובץ
+                        </button>
+                    </div>
+                    <div class="import-separator">או</div>
+                    <div class="import-option">
+                        <h4>הדבק JSON</h4>
+                        <textarea id="importJson" placeholder="הדבק כאן את תוכן המיקס בפורמט JSON..."></textarea>
+                        <button class="action-btn primary" onclick="importFromText()">
+                            <i class="fas fa-paste"></i>
+                            ייבא מיקס
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>המיקסים שלי</h4>
+                    <p>נהל את המיקסים האישיים שלך</p>
+                </div>
+                <div class="footer-section">
+                    <h4>פעולות</h4>
+                    <button class="footer-btn" onclick="clearAllMixes()">
+                        <i class="fas fa-trash"></i>
+                        מחק הכל
+                    </button>
+                    <button class="footer-btn" onclick="openImportMix()">
+                        <i class="fas fa-upload"></i>
+                        ייבא מיקס
+                    </button>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 שייק מרקט - ניהול מיקסים מתקדם</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="ingredients-database.js"></script>
+    <script src="indexeddb-manager.js"></script>
+    <script src="my-mixes.js"></script>
+</body>
+</html> 
