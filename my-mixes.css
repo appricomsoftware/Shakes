@@ -705,4 +705,24 @@
         flex-direction: column;
         text-align: center;
     }
+    
+    .legal-disclaimer {
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .legal-disclaimer h4 {
+        font-size: 1.1rem;
+    }
+    
+    .disclaimer-list li {
+        padding: 0.5rem;
+        margin-bottom: 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    .disclaimer-bottom {
+        padding: 0.75rem;
+        font-size: 1rem;
+    }
 } 

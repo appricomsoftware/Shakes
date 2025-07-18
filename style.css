@@ -565,6 +565,78 @@ body {
     margin-top: 3rem;
 }
 
+.footer-content {
+    margin-bottom: 2rem;
+}
+
+/* Legal Disclaimer */
+.legal-disclaimer {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2rem;
+    border-radius: 15px;
+    margin-top: 2rem;
+    text-align: right;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.legal-disclaimer h4 {
+    color: #ffeb3b;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-align: center;
+    border-bottom: 2px solid rgba(255, 235, 59, 0.3);
+    padding-bottom: 0.5rem;
+}
+
+.legal-disclaimer p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.disclaimer-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+}
+
+.disclaimer-list li {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border-right: 4px solid #ffeb3b;
+    line-height: 1.5;
+    transition: all 0.3s ease;
+}
+
+.disclaimer-list li:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(-3px);
+}
+
+.disclaimer-list li strong {
+    color: #ffeb3b;
+    font-weight: 600;
+}
+
+.disclaimer-bottom {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 1rem;
+    background: rgba(255, 107, 107, 0.2);
+    border-radius: 10px;
+    border: 2px solid #ff6b6b;
+    color: #ffeb3b;
+    font-size: 1.1rem;
+}
+
+.disclaimer-bottom strong {
+    color: #ff6b6b;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .header .container {
@@ -629,5 +701,25 @@ body {
         padding: 1.5rem;
         margin: 10% auto;
         width: 95%;
+    }
+    
+    .legal-disclaimer {
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .legal-disclaimer h4 {
+        font-size: 1.1rem;
+    }
+    
+    .disclaimer-list li {
+        padding: 0.5rem;
+        margin-bottom: 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    .disclaimer-bottom {
+        padding: 0.75rem;
+        font-size: 1rem;
     }
 } 

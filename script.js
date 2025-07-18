@@ -417,6 +417,9 @@ function performSearch() {
 
 // אירועים
 document.addEventListener('DOMContentLoaded', function() {
+    // בדיקת הסכמה משפטית
+    checkLegalAgreement();
+    
     // הצגת כל השייקים בטעינה
     displayShakes(shakesData);
     
@@ -465,6 +468,45 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// בדיקת הסכמה משפטית
+function checkLegalAgreement() {
+    const hasAgreed = localStorage.getItem('legalAgreement');
+    if (!hasAgreed) {
+        document.getElementById('legalWarningModal').style.display = 'block';
+        
+        // הוספת אירוע לצ'קבוקס
+        const checkbox = document.getElementById('legalAgreement');
+        const acceptBtn = document.querySelector('.warning-btn.accept');
+        
+        checkbox.addEventListener('change', function() {
+            acceptBtn.disabled = !this.checked;
+        });
+    }
+}
+
+function acceptLegalTerms() {
+    const checkbox = document.getElementById('legalAgreement');
+    if (checkbox.checked) {
+        localStorage.setItem('legalAgreement', 'true');
+        document.getElementById('legalWarningModal').style.display = 'none';
+    }
+}
+
+function declineLegalTerms() {
+    if (confirm('האם אתה בטוח שאינך מסכים לתנאים? האפליקציה תיסגר.')) {
+        window.close();
+        // אם לא ניתן לסגור, הפנה לדף ריק
+        document.body.innerHTML = `
+            <div style="text-align: center; padding: 2rem; font-family: Arial, sans-serif;">
+                <h2>שימוש באפליקציה הופסק</h2>
+                <p>בחרת שלא להסכים לתנאים המשפטיים.</p>
+                <p>לשימוש באפליקציה נדרשת הסכמה מלאה לתנאים.</p>
+                <button onclick="location.reload()" style="padding: 0.5rem 1rem; margin-top: 1rem;">חזור לדף הבית</button>
+            </div>
+        `;
+    }
+}
+
 // הוספת CSS דינמי למודל
 const style = document.createElement('style');
 style.textContent = `
@@ -499,6 +541,132 @@ style.textContent = `
         font-size: 0.9rem;
         color: #ff6b6b;
         font-weight: 600;
+    }
+    
+    /* Legal Warning Modal */
+    .legal-warning-modal {
+        max-width: 600px;
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .legal-warning-content {
+        padding: 2rem;
+        text-align: center;
+    }
+    
+    .warning-icon {
+        font-size: 4rem;
+        color: #ff6b6b;
+        margin-bottom: 1rem;
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+    
+    .legal-warning-content h2 {
+        color: #333;
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+    }
+    
+    .warning-text {
+        text-align: right;
+        margin-bottom: 2rem;
+    }
+    
+    .warning-list {
+        list-style: none;
+        padding: 0;
+        margin: 1rem 0;
+    }
+    
+    .warning-list li {
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+        background: #fff3cd;
+        border-radius: 8px;
+        border-right: 4px solid #ff6b6b;
+        font-size: 0.95rem;
+        line-height: 1.4;
+    }
+    
+    .agreement-section {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin: 1.5rem 0;
+    }
+    
+    .agreement-checkbox {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .agreement-checkbox input {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+    
+    .warning-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+    
+    .warning-btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 25px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+    }
+    
+    .warning-btn.decline {
+        background: #dc3545;
+        color: white;
+    }
+    
+    .warning-btn.decline:hover {
+        background: #c82333;
+    }
+    
+    .warning-btn.accept {
+        background: #28a745;
+        color: white;
+    }
+    
+    .warning-btn.accept:hover:not(:disabled) {
+        background: #218838;
+    }
+    
+    .warning-btn:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+    
+    .warning-footer {
+        font-size: 0.9rem;
+        color: #666;
+        margin-top: 1.5rem;
+        font-style: italic;
     }
 `;
 document.head.appendChild(style); 
