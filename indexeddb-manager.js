@@ -315,7 +315,15 @@ class CustomMixBuilder {
                 carbs: 0,
                 fat: 0,
                 fiber: 0,
-                sugar: 0
+                sugar: 0,
+                sodium: 0,
+                potassium: 0,
+                vitaminC: 0,
+                calcium: 0,
+                iron: 0,
+                vitaminA: 0,
+                magnesium: 0,
+                folate: 0
             },
             volume: 0,
             rating: 0,

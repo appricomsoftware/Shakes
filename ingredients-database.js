@@ -2,12 +2,12 @@
 const ingredientsDatabase = {
     // פירות טריים 
     fruits: [
-        { id: 1, name: "בננה", category: "fruits", calories: 89, protein: 1.1, carbs: 22.8, fat: 0.3, fiber: 2.6, sugar: 12.2, icon: "🍌", benefits: ["אנרגיה", "אשלגן", "ויטמין B6"] },
-        { id: 2, name: "תפוח", category: "fruits", calories: 52, protein: 0.3, carbs: 13.8, fat: 0.2, fiber: 2.4, sugar: 10.4, icon: "🍎", benefits: ["נוגד חמצון", "עיכול", "ויטמין C"] },
-        { id: 3, name: "אוכמניות", category: "fruits", calories: 57, protein: 0.7, carbs: 14.5, fat: 0.3, fiber: 2.4, sugar: 10.0, icon: "🫐", benefits: ["אנטי-אוקסידנטים", "זיכרון", "בריאות העיניים"] },
-        { id: 4, name: "תותים", category: "fruits", calories: 32, protein: 0.7, carbs: 7.7, fat: 0.3, fiber: 2.0, sugar: 4.9, icon: "🍓", benefits: ["ויטמין C", "חיסון", "עור בריא"] },
-        { id: 5, name: "מנגו", category: "fruits", calories: 60, protein: 0.8, carbs: 15.0, fat: 0.4, fiber: 1.6, sugar: 13.7, icon: "🥭", benefits: ["ויטמין A", "עיכול", "נוגד דלקת"] },
-        { id: 6, name: "אננס", category: "fruits", calories: 50, protein: 0.5, carbs: 13.1, fat: 0.1, fiber: 1.4, sugar: 9.9, icon: "🍍", benefits: ["ברומלין", "עיכול", "חיסון"] },
+        { id: 1, name: "בננה", category: "fruits", calories: 89, protein: 1.1, carbs: 22.8, fat: 0.3, fiber: 2.6, sugar: 12.2, sodium: 1, potassium: 358, vitaminC: 8.7, calcium: 5, iron: 0.3, vitaminA: 3, magnesium: 27, folate: 20, icon: "🍌", benefits: ["אנרגיה", "אשלגן", "ויטמין B6"] },
+        { id: 2, name: "תפוח", category: "fruits", calories: 52, protein: 0.3, carbs: 13.8, fat: 0.2, fiber: 2.4, sugar: 10.4, sodium: 1, potassium: 107, vitaminC: 4.6, calcium: 6, iron: 0.1, vitaminA: 3, magnesium: 5, folate: 3, icon: "🍎", benefits: ["נוגד חמצון", "עיכול", "ויטמין C"] },
+        { id: 3, name: "אוכמניות", category: "fruits", calories: 57, protein: 0.7, carbs: 14.5, fat: 0.3, fiber: 2.4, sugar: 10.0, sodium: 1, potassium: 77, vitaminC: 9.7, calcium: 6, iron: 0.3, vitaminA: 3, magnesium: 6, folate: 6, icon: "🫐", benefits: ["אנטי-אוקסידנטים", "זיכרון", "בריאות העיניים"] },
+        { id: 4, name: "תותים", category: "fruits", calories: 32, protein: 0.7, carbs: 7.7, fat: 0.3, fiber: 2.0, sugar: 4.9, sodium: 1, potassium: 153, vitaminC: 58.8, calcium: 16, iron: 0.4, vitaminA: 1, magnesium: 13, folate: 24, icon: "🍓", benefits: ["ויטמין C", "חיסון", "עור בריא"] },
+        { id: 5, name: "מנגו", category: "fruits", calories: 60, protein: 0.8, carbs: 15.0, fat: 0.4, fiber: 1.6, sugar: 13.7, sodium: 1, potassium: 168, vitaminC: 36.4, calcium: 11, iron: 0.2, vitaminA: 54, magnesium: 10, folate: 43, icon: "🥭", benefits: ["ויטמין A", "עיכול", "נוגד דלקת"] },
+        { id: 6, name: "אננס", category: "fruits", calories: 50, protein: 0.5, carbs: 13.1, fat: 0.1, fiber: 1.4, sugar: 9.9, sodium: 1, potassium: 109, vitaminC: 47.8, calcium: 13, iron: 0.3, vitaminA: 3, magnesium: 12, folate: 18, icon: "🍍", benefits: ["ברומלין", "עיכול", "חיסון"] },
         { id: 7, name: "קיווי", category: "fruits", calories: 61, protein: 1.1, carbs: 14.7, fat: 0.5, fiber: 3.0, sugar: 9.0, icon: "🥝", benefits: ["ויטמין C", "עיכול", "חיסון"] },
         { id: 8, name: "אבוקדו", category: "fruits", calories: 160, protein: 2.0, carbs: 8.5, fat: 14.7, fiber: 6.7, sugar: 0.7, icon: "🥑", benefits: ["שומנים בריאים", "שובע", "לב בריא"] },
         { id: 9, name: "תפוז", category: "fruits", calories: 47, protein: 0.9, carbs: 11.8, fat: 0.1, fiber: 2.4, sugar: 9.4, icon: "🍊", benefits: ["ויטמין C", "חיסון", "עור בריא"] },
@@ -26,8 +26,8 @@ const ingredientsDatabase = {
 
     // ירקות ירוקים
     vegetables: [
-        { id: 21, name: "תרד", category: "vegetables", calories: 23, protein: 2.9, carbs: 3.6, fat: 0.4, fiber: 2.2, sugar: 0.4, icon: "🥬", benefits: ["ברזל", "עיניים", "חיסון"] },
-        { id: 22, name: "קייל", category: "vegetables", calories: 49, protein: 4.3, carbs: 8.8, fat: 0.9, fiber: 3.6, sugar: 2.3, icon: "🥬", benefits: ["ויטמין K", "נוגד חמצון", "עצמות"] },
+        { id: 21, name: "תרד", category: "vegetables", calories: 23, protein: 2.9, carbs: 3.6, fat: 0.4, fiber: 2.2, sugar: 0.4, sodium: 79, potassium: 558, vitaminC: 28.1, calcium: 99, iron: 2.7, vitaminA: 469, magnesium: 79, folate: 194, icon: "🥬", benefits: ["ברזל", "עיניים", "חיסון"] },
+        { id: 22, name: "קייל", category: "vegetables", calories: 49, protein: 4.3, carbs: 8.8, fat: 0.9, fiber: 3.6, sugar: 2.3, sodium: 38, potassium: 491, vitaminC: 120, calcium: 150, iron: 1.5, vitaminA: 500, magnesium: 47, folate: 29, icon: "🥬", benefits: ["ויטמין K", "נוגד חמצון", "עצמות"] },
         { id: 23, name: "מלפפון", category: "vegetables", calories: 16, protein: 0.7, carbs: 4.0, fat: 0.1, fiber: 0.5, sugar: 1.7, icon: "🥒", benefits: ["הידרציה", "עור בריא", "ניקוי"] },
         { id: 24, name: "סלרי", category: "vegetables", calories: 14, protein: 0.7, carbs: 3.0, fat: 0.2, fiber: 1.6, sugar: 1.3, icon: "🥬", benefits: ["נוגד דלקת", "עיכול", "אלקטרוליטים"] },
         { id: 25, name: "חסה", category: "vegetables", calories: 15, protein: 1.4, carbs: 2.9, fat: 0.2, fiber: 1.3, sugar: 0.8, icon: "🥬", benefits: ["הידרציה", "עיכול", "שינה"] },
@@ -271,9 +271,32 @@ const ingredientUtils = {
                 carbs: total.carbs + (ingredient.carbs * amount / 100),
                 fat: total.fat + (ingredient.fat * amount / 100),
                 fiber: total.fiber + (ingredient.fiber * amount / 100),
-                sugar: total.sugar + (ingredient.sugar * amount / 100)
+                sugar: total.sugar + (ingredient.sugar * amount / 100),
+                sodium: total.sodium + ((ingredient.sodium || 0) * amount / 100),
+                potassium: total.potassium + ((ingredient.potassium || 0) * amount / 100),
+                vitaminC: total.vitaminC + ((ingredient.vitaminC || 0) * amount / 100),
+                calcium: total.calcium + ((ingredient.calcium || 0) * amount / 100),
+                iron: total.iron + ((ingredient.iron || 0) * amount / 100),
+                vitaminA: total.vitaminA + ((ingredient.vitaminA || 0) * amount / 100),
+                magnesium: total.magnesium + ((ingredient.magnesium || 0) * amount / 100),
+                folate: total.folate + ((ingredient.folate || 0) * amount / 100)
             };
-        }, { calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, sugar: 0 });
+        }, { 
+            calories: 0, 
+            protein: 0, 
+            carbs: 0, 
+            fat: 0, 
+            fiber: 0, 
+            sugar: 0, 
+            sodium: 0, 
+            potassium: 0, 
+            vitaminC: 0, 
+            calcium: 0, 
+            iron: 0, 
+            vitaminA: 0, 
+            magnesium: 0, 
+            folate: 0 
+        });
     }
 };
 

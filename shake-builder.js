@@ -257,6 +257,35 @@ class ShakeBuilderApp {
                     <div class="preview-nutrition-label">סוכר (g)</div>
                 </div>
             </div>
+            <div class="detailed-nutrition">
+                <h5>מינרלים וויטמינים:</h5>
+                <div class="nutrition-grid">
+                    <div class="preview-nutrition-item">
+                        <div class="preview-nutrition-value">${Math.round((ingredient.sodium || 0) * factor * 10) / 10}</div>
+                        <div class="preview-nutrition-label">נתרן (mg)</div>
+                    </div>
+                    <div class="preview-nutrition-item">
+                        <div class="preview-nutrition-value">${Math.round((ingredient.potassium || 0) * factor * 10) / 10}</div>
+                        <div class="preview-nutrition-label">אשלגן (mg)</div>
+                    </div>
+                    <div class="preview-nutrition-item">
+                        <div class="preview-nutrition-value">${Math.round((ingredient.vitaminC || 0) * factor * 10) / 10}</div>
+                        <div class="preview-nutrition-label">ויטמין C (mg)</div>
+                    </div>
+                    <div class="preview-nutrition-item">
+                        <div class="preview-nutrition-value">${Math.round((ingredient.calcium || 0) * factor * 10) / 10}</div>
+                        <div class="preview-nutrition-label">סידן (mg)</div>
+                    </div>
+                    <div class="preview-nutrition-item">
+                        <div class="preview-nutrition-value">${Math.round((ingredient.iron || 0) * factor * 10) / 10}</div>
+                        <div class="preview-nutrition-label">ברזל (mg)</div>
+                    </div>
+                    <div class="preview-nutrition-item">
+                        <div class="preview-nutrition-value">${Math.round((ingredient.magnesium || 0) * factor * 10) / 10}</div>
+                        <div class="preview-nutrition-label">מגנזיום (mg)</div>
+                    </div>
+                </div>
+            </div>
         `;
     }
 
@@ -303,6 +332,32 @@ class ShakeBuilderApp {
         document.getElementById('totalCarbs').textContent = Math.round(nutrition.carbs * 10) / 10;
         document.getElementById('totalFat').textContent = Math.round(nutrition.fat * 10) / 10;
         document.getElementById('totalVolume').textContent = Math.round(this.mixBuilder.currentMix.volume);
+        
+        // עדכון ערכים תזונתיים מפורטים
+        if (document.getElementById('totalSugar')) {
+            document.getElementById('totalSugar').textContent = Math.round(nutrition.sugar * 10) / 10;
+        }
+        if (document.getElementById('totalFiber')) {
+            document.getElementById('totalFiber').textContent = Math.round(nutrition.fiber * 10) / 10;
+        }
+        if (document.getElementById('totalSodium')) {
+            document.getElementById('totalSodium').textContent = Math.round(nutrition.sodium * 10) / 10;
+        }
+        if (document.getElementById('totalPotassium')) {
+            document.getElementById('totalPotassium').textContent = Math.round(nutrition.potassium * 10) / 10;
+        }
+        if (document.getElementById('totalVitaminC')) {
+            document.getElementById('totalVitaminC').textContent = Math.round(nutrition.vitaminC * 10) / 10;
+        }
+        if (document.getElementById('totalCalcium')) {
+            document.getElementById('totalCalcium').textContent = Math.round(nutrition.calcium * 10) / 10;
+        }
+        if (document.getElementById('totalIron')) {
+            document.getElementById('totalIron').textContent = Math.round(nutrition.iron * 10) / 10;
+        }
+        if (document.getElementById('totalMagnesium')) {
+            document.getElementById('totalMagnesium').textContent = Math.round(nutrition.magnesium * 10) / 10;
+        }
     }
 
     updateSelectedIngredients() {
@@ -501,7 +556,7 @@ class ShakeBuilderApp {
         
         body.innerHTML = `
             <div class="preview-nutrition">
-                <h4>מידע תזונתי</h4>
+                <h4>💪 מידע תזונתי בסיסי</h4>
                 <div class="nutrition-grid">
                     <div class="preview-nutrition-item">
                         <div class="preview-nutrition-value">${Math.round(nutrition.calories)}</div>
@@ -524,8 +579,41 @@ class ShakeBuilderApp {
                         <div class="preview-nutrition-label">סיבים (g)</div>
                     </div>
                     <div class="preview-nutrition-item">
+                        <div class="preview-nutrition-value">${Math.round(nutrition.sugar * 10) / 10}</div>
+                        <div class="preview-nutrition-label">סוכר (g)</div>
+                    </div>
+                    <div class="preview-nutrition-item">
                         <div class="preview-nutrition-value">${Math.round(this.mixBuilder.currentMix.volume)}</div>
                         <div class="preview-nutrition-label">נפח (ml)</div>
+                    </div>
+                </div>
+            </div>
+            <div class="preview-nutrition">
+                <h4>🧪 מינרלים וויטמינים</h4>
+                <div class="nutrition-grid">
+                    <div class="preview-nutrition-item">
+                        <div class="preview-nutrition-value">${Math.round(nutrition.sodium * 10) / 10}</div>
+                        <div class="preview-nutrition-label">נתרן (mg)</div>
+                    </div>
+                    <div class="preview-nutrition-item">
+                        <div class="preview-nutrition-value">${Math.round(nutrition.potassium * 10) / 10}</div>
+                        <div class="preview-nutrition-label">אשלגן (mg)</div>
+                    </div>
+                    <div class="preview-nutrition-item">
+                        <div class="preview-nutrition-value">${Math.round(nutrition.vitaminC * 10) / 10}</div>
+                        <div class="preview-nutrition-label">ויטמין C (mg)</div>
+                    </div>
+                    <div class="preview-nutrition-item">
+                        <div class="preview-nutrition-value">${Math.round(nutrition.calcium * 10) / 10}</div>
+                        <div class="preview-nutrition-label">סידן (mg)</div>
+                    </div>
+                    <div class="preview-nutrition-item">
+                        <div class="preview-nutrition-value">${Math.round(nutrition.iron * 10) / 10}</div>
+                        <div class="preview-nutrition-label">ברזל (mg)</div>
+                    </div>
+                    <div class="preview-nutrition-item">
+                        <div class="preview-nutrition-value">${Math.round(nutrition.magnesium * 10) / 10}</div>
+                        <div class="preview-nutrition-label">מגנזיום (mg)</div>
                     </div>
                 </div>
             </div>

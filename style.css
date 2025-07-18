@@ -633,9 +633,88 @@ body {
     font-size: 1.1rem;
 }
 
-.disclaimer-bottom strong {
-    color: #ff6b6b;
-}
+    .disclaimer-bottom strong {
+        color: #ff6b6b;
+    }
+
+    /* Nutrition Panel */
+    .nutrition-panel {
+        margin: 2rem 0;
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        color: #333;
+    }
+
+    .nutrition-panel h3 {
+        color: #667eea;
+        margin-bottom: 1.5rem;
+        font-size: 1.4rem;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .nutrition-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .nutrition-section {
+        padding: 1rem;
+        background: rgba(103, 126, 234, 0.05);
+        border-radius: 10px;
+        border-right: 4px solid #667eea;
+    }
+
+    .nutrition-section h4 {
+        color: #667eea;
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .nutrition-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(103, 126, 234, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .nutrition-item:hover {
+        background: rgba(103, 126, 234, 0.05);
+        padding-left: 0.5rem;
+        border-radius: 5px;
+    }
+
+    .nutrition-item:last-child {
+        border-bottom: none;
+    }
+
+    .nutrition-item.indent {
+        padding-right: 1rem;
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .nutrition-label {
+        font-weight: 500;
+        color: #555;
+    }
+
+    .nutrition-value {
+        font-weight: 600;
+        color: #667eea;
+        background: rgba(103, 126, 234, 0.1);
+        padding: 0.25rem 0.5rem;
+        border-radius: 15px;
+        font-size: 0.9rem;
+    }
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -721,5 +800,24 @@ body {
     .disclaimer-bottom {
         padding: 0.75rem;
         font-size: 1rem;
+    }
+    
+    .nutrition-panel {
+        margin-top: 1rem;
+    }
+    
+    .nutrition-grid {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .nutrition-item {
+        font-size: 0.9rem;
+        padding: 0.3rem 0;
+    }
+    
+    .nutrition-section h4 {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
     }
 } 

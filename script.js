@@ -11,6 +11,24 @@ const shakesData = [
         calories: 120,
         weight: "300ml",
         overallValue: 9.2,
+        nutrition: {
+            protein: 4.2,
+            carbs: 28.5,
+            fat: 0.8,
+            sugar: 22.1,
+            fiber: 6.8,
+            saturatedFat: 0.1,
+            unsaturatedFat: 0.7,
+            sodium: 45,
+            potassium: 680,
+            vitaminC: 85,
+            calcium: 120,
+            iron: 2.8,
+            vitaminA: 450,
+            vitaminK: 180,
+            folate: 65,
+            magnesium: 58
+        },
         ingredients: [
             { name: "תרד טרי", amount: "100g" },
             { name: "מלפפון", amount: "1 יחידה" },
@@ -2033,6 +2051,128 @@ const shakesData = [
 let currentFilter = 'all';
 let currentShakes = shakesData;
 
+// פונקציה לחישוב ערכים תזונתיים מרכיבים
+function calculateNutrition(ingredients) {
+    let totalNutrition = {
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        sugar: 0,
+        fiber: 0,
+        saturatedFat: 0,
+        unsaturatedFat: 0,
+        sodium: 0,
+        potassium: 0,
+        vitaminC: 0,
+        calcium: 0,
+        iron: 0,
+        vitaminA: 0,
+        vitaminK: 0,
+        folate: 0,
+        magnesium: 0
+    };
+
+    // מאגר ערכים תזונתיים בסיסי לרכיבים נפוצים
+    const nutritionData = {
+        "בננה": { protein: 1.1, carbs: 22.8, fat: 0.3, sugar: 12.2, fiber: 2.6, sodium: 1, potassium: 358, vitaminC: 8.7, calcium: 5, iron: 0.3, vitaminA: 3, magnesium: 27, folate: 20 },
+        "תפוח": { protein: 0.3, carbs: 13.8, fat: 0.2, sugar: 10.4, fiber: 2.4, sodium: 1, potassium: 107, vitaminC: 4.6, calcium: 6, iron: 0.1, vitaminA: 3, magnesium: 5, folate: 3 },
+        "תפוח ירוק": { protein: 0.3, carbs: 13.8, fat: 0.2, sugar: 10.4, fiber: 2.4, sodium: 1, potassium: 107, vitaminC: 4.6, calcium: 6, iron: 0.1, vitaminA: 3, magnesium: 5, folate: 3 },
+        "תרד": { protein: 2.9, carbs: 3.6, fat: 0.4, sugar: 0.4, fiber: 2.2, sodium: 79, potassium: 558, vitaminC: 28.1, calcium: 99, iron: 2.7, vitaminA: 469, vitaminK: 483, magnesium: 79, folate: 194 },
+        "תרד טרי": { protein: 2.9, carbs: 3.6, fat: 0.4, sugar: 0.4, fiber: 2.2, sodium: 79, potassium: 558, vitaminC: 28.1, calcium: 99, iron: 2.7, vitaminA: 469, vitaminK: 483, magnesium: 79, folate: 194 },
+        "קייל": { protein: 4.3, carbs: 8.8, fat: 0.9, sugar: 2.3, fiber: 3.6, sodium: 38, potassium: 491, vitaminC: 120, calcium: 150, iron: 1.5, vitaminA: 500, vitaminK: 817, magnesium: 47, folate: 29 },
+        "מלפפון": { protein: 0.7, carbs: 4.0, fat: 0.1, sugar: 1.7, fiber: 0.5, sodium: 2, potassium: 147, vitaminC: 2.8, calcium: 16, iron: 0.3, vitaminA: 5, magnesium: 13, folate: 7 },
+        "תותים": { protein: 0.7, carbs: 7.7, fat: 0.3, sugar: 4.9, fiber: 2.0, sodium: 1, potassium: 153, vitaminC: 58.8, calcium: 16, iron: 0.4, vitaminA: 1, magnesium: 13, folate: 24 },
+        "אוכמניות": { protein: 0.7, carbs: 14.5, fat: 0.3, sugar: 10.0, fiber: 2.4, sodium: 1, potassium: 77, vitaminC: 9.7, calcium: 6, iron: 0.3, vitaminA: 3, magnesium: 6, folate: 6 },
+        "דבש": { protein: 0.3, carbs: 17.1, fat: 0.0, sugar: 16.3, fiber: 0.0, sodium: 1, potassium: 11, vitaminC: 0.5, calcium: 1, iron: 0.1, vitaminA: 0, magnesium: 1, folate: 0 },
+        "מי קוקוס": { protein: 0.7, carbs: 3.7, fat: 0.2, sugar: 2.6, fiber: 1.1, sodium: 105, potassium: 250, vitaminC: 2.4, calcium: 24, iron: 0.3, vitaminA: 0, magnesium: 25, folate: 3 },
+        "לימון": { protein: 1.1, carbs: 9.3, fat: 0.3, sugar: 1.5, fiber: 2.8, sodium: 2, potassium: 80, vitaminC: 53, calcium: 26, iron: 0.6, vitaminA: 1, magnesium: 8, folate: 6 },
+        "חלב פרות": { protein: 3.4, carbs: 5.0, fat: 1.0, sugar: 5.0, fiber: 0.0, sodium: 40, potassium: 150, vitaminC: 0.0, calcium: 113, iron: 0.0, vitaminA: 28, magnesium: 10, folate: 5 },
+        "חלב עיזים": { protein: 3.6, carbs: 4.5, fat: 4.1, sugar: 4.5, fiber: 0.0, sodium: 50, potassium: 204, vitaminC: 1.3, calcium: 134, iron: 0.1, vitaminA: 57, magnesium: 14, folate: 1 },
+        "חלב שקדים": { protein: 0.6, carbs: 1.5, fat: 1.2, sugar: 0.6, fiber: 0.4, sodium: 150, potassium: 180, vitaminC: 0.0, calcium: 188, iron: 0.4, vitaminA: 0, magnesium: 5, folate: 0 },
+        "ג'ינג'ר": { protein: 1.8, carbs: 18.0, fat: 0.8, sugar: 1.7, fiber: 2.0, sodium: 13, potassium: 415, vitaminC: 5.0, calcium: 16, iron: 0.6, vitaminA: 0, magnesium: 43, folate: 11 },
+        "קינמון": { protein: 4.0, carbs: 81.0, fat: 1.2, sugar: 2.2, fiber: 53.0, sodium: 10, potassium: 431, vitaminC: 3.8, calcium: 1002, iron: 8.3, vitaminA: 15, magnesium: 60, folate: 6 },
+        "מיץ תפוזים": { protein: 0.7, carbs: 10.4, fat: 0.2, sugar: 8.4, fiber: 0.2, sodium: 1, potassium: 200, vitaminC: 50, calcium: 11, iron: 0.2, vitaminA: 8, magnesium: 11, folate: 25 },
+        "מיץ רימון": { protein: 0.2, carbs: 32.7, fat: 0.3, sugar: 31.0, fiber: 0.1, sodium: 7, potassium: 214, vitaminC: 0.1, calcium: 11, iron: 0.1, vitaminA: 0, magnesium: 12, folate: 4 },
+        "מיץ אוכמניות": { protein: 0.1, carbs: 11.4, fat: 0.1, sugar: 9.7, fiber: 0.2, sodium: 1, potassium: 77, vitaminC: 9.7, calcium: 6, iron: 0.3, vitaminA: 3, magnesium: 6, folate: 6 },
+        "מיץ דובדבנים": { protein: 0.7, carbs: 12.0, fat: 0.3, sugar: 10.0, fiber: 0.5, sodium: 4, potassium: 180, vitaminC: 7, calcium: 15, iron: 0.4, vitaminA: 64, magnesium: 9, folate: 4 },
+        "מיץ אננס": { protein: 0.5, carbs: 13.1, fat: 0.1, sugar: 9.9, fiber: 1.4, sodium: 1, potassium: 109, vitaminC: 47.8, calcium: 13, iron: 0.3, vitaminA: 3, magnesium: 12, folate: 18 },
+        "מיץ ביט": { protein: 1.6, carbs: 9.6, fat: 0.2, sugar: 6.8, fiber: 2.8, sodium: 78, potassium: 325, vitaminC: 4.9, calcium: 16, iron: 0.8, vitaminA: 2, magnesium: 23, folate: 109 },
+        "מנגו": { protein: 0.8, carbs: 15.0, fat: 0.4, sugar: 13.7, fiber: 1.6, sodium: 1, potassium: 168, vitaminC: 36.4, calcium: 11, iron: 0.2, vitaminA: 54, magnesium: 10, folate: 43 },
+        "אננס": { protein: 0.5, carbs: 13.1, fat: 0.1, sugar: 9.9, fiber: 1.4, sodium: 1, potassium: 109, vitaminC: 47.8, calcium: 13, iron: 0.3, vitaminA: 3, magnesium: 12, folate: 18 },
+        "קיווי": { protein: 1.1, carbs: 14.7, fat: 0.5, sugar: 9.0, fiber: 3.0, sodium: 3, potassium: 312, vitaminC: 92.7, calcium: 34, iron: 0.3, vitaminA: 4, magnesium: 17, folate: 25 },
+        "אבוקדו": { protein: 2.0, carbs: 8.5, fat: 14.7, sugar: 0.7, fiber: 6.7, sodium: 7, potassium: 485, vitaminC: 10, calcium: 12, iron: 0.6, vitaminA: 7, magnesium: 29, folate: 81 },
+        "אוכמניות": { protein: 0.7, carbs: 14.5, fat: 0.3, sugar: 10.0, fiber: 2.4, sodium: 1, potassium: 77, vitaminC: 9.7, calcium: 6, iron: 0.3, vitaminA: 3, magnesium: 6, folate: 6 },
+        "דובדבנים": { protein: 1.1, carbs: 16.0, fat: 0.2, sugar: 12.8, fiber: 2.1, sodium: 0, potassium: 222, vitaminC: 7, calcium: 13, iron: 0.4, vitaminA: 64, magnesium: 11, folate: 4 },
+        "אגוזי מלך": { protein: 15.0, carbs: 14.0, fat: 65.0, sugar: 2.6, fiber: 6.7, sodium: 2, potassium: 441, vitaminC: 1.3, calcium: 98, iron: 2.9, vitaminA: 1, magnesium: 158, folate: 98 },
+        "שקדים": { protein: 21.0, carbs: 22.0, fat: 50.0, sugar: 4.4, fiber: 12.0, sodium: 1, potassium: 733, vitaminC: 0, calcium: 269, iron: 3.7, vitaminA: 0, magnesium: 270, folate: 44 },
+        "זרעי צ'יא": { protein: 17.0, carbs: 42.0, fat: 31.0, sugar: 0.0, fiber: 34.0, sodium: 16, potassium: 407, vitaminC: 1.6, calcium: 631, iron: 7.7, vitaminA: 15, magnesium: 335, folate: 49 },
+        "זרעי פשתן": { protein: 18.0, carbs: 29.0, fat: 42.0, sugar: 1.5, fiber: 27.0, sodium: 30, potassium: 813, vitaminC: 0.6, calcium: 255, iron: 5.7, vitaminA: 0, magnesium: 392, folate: 87 },
+        "זרעי חמניות": { protein: 21.0, carbs: 20.0, fat: 51.0, sugar: 2.6, fiber: 8.6, sodium: 9, potassium: 645, vitaminC: 1.4, calcium: 78, iron: 5.2, vitaminA: 5, magnesium: 325, folate: 227 },
+        "זרעי דלעת": { protein: 19.0, carbs: 54.0, fat: 49.0, sugar: 1.4, fiber: 18.0, sodium: 18, potassium: 919, vitaminC: 1.9, calcium: 55, iron: 3.3, vitaminA: 16, magnesium: 262, folate: 58 },
+        "חמאת בוטנים": { protein: 25.8, carbs: 20.0, fat: 50.0, sugar: 9.2, fiber: 8.0, sodium: 17, potassium: 649, vitaminC: 0, calcium: 92, iron: 4.6, vitaminA: 0, magnesium: 154, folate: 240 },
+        "חמאת שקדים": { protein: 21.0, carbs: 19.0, fat: 55.0, sugar: 4.4, fiber: 10.0, sodium: 7, potassium: 458, vitaminC: 0, calcium: 347, iron: 3.9, vitaminA: 0, magnesium: 279, folate: 63 },
+        "חמאת קשיו": { protein: 18.0, carbs: 30.0, fat: 46.0, sugar: 6.0, fiber: 3.0, sodium: 18, potassium: 546, vitaminC: 0.5, calcium: 37, iron: 6.7, vitaminA: 0, magnesium: 292, folate: 25 },
+        "שיבולת שועל": { protein: 16.9, carbs: 66.3, fat: 6.9, sugar: 0.0, fiber: 10.6, sodium: 2, potassium: 429, vitaminC: 0, calcium: 54, iron: 4.7, vitaminA: 0, magnesium: 177, folate: 56 },
+        "ספירולינה": { protein: 57.5, carbs: 23.9, fat: 7.7, sugar: 3.1, fiber: 3.6, sodium: 1048, potassium: 1363, vitaminC: 10.1, calcium: 120, iron: 28.5, vitaminA: 570, magnesium: 195, folate: 94 },
+        "כלורלה": { protein: 45.0, carbs: 25.0, fat: 20.0, sugar: 0.0, fiber: 18.0, sodium: 48, potassium: 1047, vitaminC: 10.4, calcium: 221, iron: 130, vitaminA: 51300, magnesium: 315, folate: 94 },
+        "אבקת חלבון": { protein: 80.0, carbs: 5.0, fat: 2.0, sugar: 2.0, fiber: 0.0, sodium: 50, potassium: 150, vitaminC: 0, calcium: 100, iron: 0.5, vitaminA: 0, magnesium: 25, folate: 0 },
+        "אבקת חלבון וניל": { protein: 80.0, carbs: 5.0, fat: 2.0, sugar: 2.0, fiber: 0.0, sodium: 50, potassium: 150, vitaminC: 0, calcium: 100, iron: 0.5, vitaminA: 0, magnesium: 25, folate: 0 },
+        "אבקת חלבון שוקולד": { protein: 76.0, carbs: 8.0, fat: 3.0, sugar: 4.0, fiber: 2.0, sodium: 60, potassium: 200, vitaminC: 0, calcium: 120, iron: 1.0, vitaminA: 0, magnesium: 50, folate: 0 },
+        "אבקת חלבון צמחי": { protein: 70.0, carbs: 12.0, fat: 4.0, sugar: 2.0, fiber: 5.0, sodium: 400, potassium: 350, vitaminC: 0, calcium: 150, iron: 5.0, vitaminA: 0, magnesium: 100, folate: 50 },
+        "טחינה": { protein: 18.0, carbs: 21.0, fat: 54.0, sugar: 0.3, fiber: 9.0, sodium: 115, potassium: 414, vitaminC: 0, calcium: 426, iron: 4.2, vitaminA: 0, magnesium: 95, folate: 98 },
+        "חלווה": { protein: 12.9, carbs: 54.0, fat: 25.0, sugar: 50.0, fiber: 9.9, sodium: 54, potassium: 347, vitaminC: 0, calcium: 85, iron: 3.0, vitaminA: 0, magnesium: 70, folate: 57 },
+        "סילאן": { protein: 0.7, carbs: 76.0, fat: 0.4, sugar: 73.0, fiber: 0.6, sodium: 11, potassium: 1162, vitaminC: 0.7, calcium: 81, iron: 0.9, vitaminA: 0, magnesium: 17, folate: 3 },
+        "תמרים": { protein: 1.8, carbs: 75.0, fat: 0.2, sugar: 66.5, fiber: 6.7, sodium: 1, potassium: 696, vitaminC: 0.7, calcium: 64, iron: 0.9, vitaminA: 7, magnesium: 54, folate: 15 },
+        "מנטה": { protein: 3.8, carbs: 14.9, fat: 0.9, sugar: 0.0, fiber: 8.0, sodium: 31, potassium: 569, vitaminC: 31.8, calcium: 243, iron: 5.1, vitaminA: 212, magnesium: 80, folate: 114 },
+        "מנטה טרי": { protein: 3.8, carbs: 14.9, fat: 0.9, sugar: 0.0, fiber: 8.0, sodium: 31, potassium: 569, vitaminC: 31.8, calcium: 243, iron: 5.1, vitaminA: 212, magnesium: 80, folate: 114 },
+        "וניל": { protein: 0.1, carbs: 12.7, fat: 0.1, sugar: 12.7, fiber: 0.0, sodium: 9, potassium: 148, vitaminC: 0, calcium: 11, iron: 0.1, vitaminA: 0, magnesium: 12, folate: 0 },
+        "קקאו": { protein: 19.6, carbs: 57.9, fat: 13.7, sugar: 1.8, fiber: 37.0, sodium: 21, potassium: 1524, vitaminC: 0, calcium: 128, iron: 13.9, vitaminA: 0, magnesium: 499, folate: 32 },
+        "כורכום": { protein: 7.8, carbs: 65.0, fat: 10.0, sugar: 3.2, fiber: 21.0, sodium: 38, potassium: 2525, vitaminC: 25.9, calcium: 183, iron: 41.4, vitaminA: 0, magnesium: 193, folate: 7 },
+        "תה ירוק": { protein: 0.0, carbs: 0.0, fat: 0.0, sugar: 0.0, fiber: 0.0, sodium: 1, potassium: 8, vitaminC: 0, calcium: 0, iron: 0.0, vitaminA: 0, magnesium: 1, folate: 0 },
+        "קפה קר": { protein: 0.1, carbs: 0.0, fat: 0.0, sugar: 0.0, fiber: 0.0, sodium: 5, potassium: 49, vitaminC: 0, calcium: 2, iron: 0.0, vitaminA: 0, magnesium: 3, folate: 0 },
+        "עלים": { protein: 0, carbs: 0, fat: 0, sugar: 0, fiber: 0, sodium: 0, potassium: 0, vitaminC: 0, calcium: 0, iron: 0, vitaminA: 0, magnesium: 0, folate: 0 }
+    };
+
+    ingredients.forEach(ingredient => {
+        const data = nutritionData[ingredient.name];
+        if (data) {
+            // חישוב כמות לפי גודל המנה
+            let multiplier = 1;
+            if (ingredient.amount.includes('g')) {
+                multiplier = parseInt(ingredient.amount) / 100;
+            } else if (ingredient.amount.includes('יחידה')) {
+                multiplier = parseInt(ingredient.amount) || 1;
+            } else if (ingredient.amount.includes('כף')) {
+                multiplier = (parseInt(ingredient.amount) || 1) * 0.15;
+            } else if (ingredient.amount.includes('כפית')) {
+                multiplier = (parseInt(ingredient.amount) || 1) * 0.05;
+            } else if (ingredient.amount.includes('כוס')) {
+                multiplier = (parseInt(ingredient.amount) || 1) * 2.4;
+            } else if (ingredient.amount.includes('ml')) {
+                multiplier = parseInt(ingredient.amount) / 100;
+            }
+
+            // הוספת הערכים
+            Object.keys(data).forEach(key => {
+                if (totalNutrition[key] !== undefined) {
+                    totalNutrition[key] += data[key] * multiplier;
+                }
+            });
+        }
+    });
+
+    // חישוב שומנים רוויים ובלתי רוויים
+    totalNutrition.saturatedFat = totalNutrition.fat * 0.3;
+    totalNutrition.unsaturatedFat = totalNutrition.fat * 0.7;
+
+    // עיגול הערכים
+    Object.keys(totalNutrition).forEach(key => {
+        totalNutrition[key] = Math.round(totalNutrition[key] * 10) / 10;
+    });
+
+    return totalNutrition;
+}
+
 // פונקציות עזר
 function getShakesByCategory(category) {
     if (category === 'all') return shakesData;
@@ -2101,6 +2241,9 @@ function openShakeModal(shakeId) {
     const shake = shakesData.find(s => s.id === shakeId);
     if (!shake) return;
     
+    // חישוב מידע תזונתי דינאמי
+    const nutrition = calculateNutrition(shake.ingredients);
+    
     const modalContent = `
         <div class="modal-shake-title">${shake.name}</div>
         <div class="modal-shake-details">
@@ -2121,9 +2264,90 @@ function openShakeModal(shakeId) {
                 <div class="detail-label">דירוג כללי</div>
             </div>
         </div>
+
+        <div class="nutrition-panel">
+            <h3>📊 מידע תזונתי מפורט</h3>
+            <div class="nutrition-grid">
+                <div class="nutrition-section">
+                    <h4>💪 מקרו-נוטריינטים</h4>
+                    <div class="nutrition-item">
+                        <span class="nutrition-label">חלבון:</span>
+                        <span class="nutrition-value">${nutrition.protein}g</span>
+                    </div>
+                    <div class="nutrition-item">
+                        <span class="nutrition-label">פחמימות:</span>
+                        <span class="nutrition-value">${nutrition.carbs}g</span>
+                    </div>
+                    <div class="nutrition-item">
+                        <span class="nutrition-label">סוכרים:</span>
+                        <span class="nutrition-value">${nutrition.sugar}g</span>
+                    </div>
+                    <div class="nutrition-item">
+                        <span class="nutrition-label">שומן כללי:</span>
+                        <span class="nutrition-value">${nutrition.fat}g</span>
+                    </div>
+                    <div class="nutrition-item indent">
+                        <span class="nutrition-label">שומן רווי:</span>
+                        <span class="nutrition-value">${nutrition.saturatedFat}g</span>
+                    </div>
+                    <div class="nutrition-item indent">
+                        <span class="nutrition-label">שומן בלתי רווי:</span>
+                        <span class="nutrition-value">${nutrition.unsaturatedFat}g</span>
+                    </div>
+                    <div class="nutrition-item">
+                        <span class="nutrition-label">סיבים תזונתיים:</span>
+                        <span class="nutrition-value">${nutrition.fiber}g</span>
+                    </div>
+                </div>
+
+                <div class="nutrition-section">
+                    <h4>🧪 מינרלים (מג')</h4>
+                    <div class="nutrition-item">
+                        <span class="nutrition-label">נתרן:</span>
+                        <span class="nutrition-value">${nutrition.sodium}mg</span>
+                    </div>
+                    <div class="nutrition-item">
+                        <span class="nutrition-label">אשלגן:</span>
+                        <span class="nutrition-value">${nutrition.potassium}mg</span>
+                    </div>
+                    <div class="nutrition-item">
+                        <span class="nutrition-label">סידן:</span>
+                        <span class="nutrition-value">${nutrition.calcium}mg</span>
+                    </div>
+                    <div class="nutrition-item">
+                        <span class="nutrition-label">ברזל:</span>
+                        <span class="nutrition-value">${nutrition.iron}mg</span>
+                    </div>
+                    <div class="nutrition-item">
+                        <span class="nutrition-label">מגנזיום:</span>
+                        <span class="nutrition-value">${nutrition.magnesium}mg</span>
+                    </div>
+                </div>
+
+                <div class="nutrition-section">
+                    <h4>🌟 ויטמינים</h4>
+                    <div class="nutrition-item">
+                        <span class="nutrition-label">ויטמין C:</span>
+                        <span class="nutrition-value">${nutrition.vitaminC}mg</span>
+                    </div>
+                    <div class="nutrition-item">
+                        <span class="nutrition-label">ויטמין A:</span>
+                        <span class="nutrition-value">${nutrition.vitaminA}μg</span>
+                    </div>
+                    <div class="nutrition-item">
+                        <span class="nutrition-label">ויטמין K:</span>
+                        <span class="nutrition-value">${nutrition.vitaminK}μg</span>
+                    </div>
+                    <div class="nutrition-item">
+                        <span class="nutrition-label">חומצה פולית:</span>
+                        <span class="nutrition-value">${nutrition.folate}μg</span>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <div class="ingredients-section">
-            <h4>רכיבים:</h4>
+            <h4>🥗 רכיבים:</h4>
             <ul class="ingredients-list">
                 ${shake.ingredients.map(ingredient => 
                     `<li><span>${ingredient.name}</span><span>${ingredient.amount}</span></li>`
@@ -2132,7 +2356,7 @@ function openShakeModal(shakeId) {
         </div>
         
         <div class="benefits-section">
-            <h4>יתרונות:</h4>
+            <h4>✨ יתרונות:</h4>
             <ul class="benefits-list">
                 ${shake.benefits.map(benefit => 
                     `<li>✓ ${benefit}</li>`
